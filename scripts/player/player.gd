@@ -16,8 +16,9 @@ func _physics_process(_delta: float) -> void:
 	velocity = direction * speed
 	move_and_slide()
 
-func _input(event: InputEvent) -> void:
-	# Use the currently equipped item on primary action
+func _unhandled_input(event: InputEvent) -> void:
+	# Use the currently equipped item on primary action.
+	# _unhandled_input ensures clicks consumed by UI slots don't also fire this.
 	if event.is_action_pressed("primary_action"):
 		var slot = inventory.get_slot(hotbar.get_selected_index())
 		if slot:

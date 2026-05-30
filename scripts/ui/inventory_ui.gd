@@ -9,8 +9,7 @@ const INVENTORY_OFFSET := 10  # bag starts at slot index 10
 
 @export var inventory: Inventory
 
-# Parallel array of slot UI references: {panel, color_rect, label}
-var slots_ui: Array = []
+var slots_ui: Array[InventorySlot] = []
 
 func _ready() -> void:
 	_build_panel()
@@ -47,12 +46,12 @@ func _build_panel() -> void:
 
 	# Build the 20 bag slots
 	for i in 20:
-		var slot_panel := PanelContainer.new()
-		slot_panel.custom_minimum_size = Vector2(SLOT_SIZE, SLOT_SIZE)
+		var slot := InventorySlot.new()
+		slot.custom_minimum_size = Vector2(SLOT_SIZE, SLOT_SIZE)
 
 		var vbox2 := VBoxContainer.new()
 		vbox2.alignment = BoxContainer.ALIGNMENT_CENTER
-		slot_panel.add_child(vbox2)
+		slot.add_child(vbox2)
 
 		var color_rect := ColorRect.new()
 		color_rect.custom_minimum_size = Vector2(30, 30)
@@ -68,10 +67,11 @@ func _build_panel() -> void:
 		style.bg_color = Color(0.15, 0.15, 0.15, 0.85)
 		style.set_border_width_all(2)
 		style.border_color = Color(0.4, 0.4, 0.4)
-		slot_panel.add_theme_stylebox_override("panel", style)
+		slot.add_theme_stylebox_override("panel", style)
 
-		grid.add_child(slot_panel)
-		slots_ui.append({panel = slot_panel, color_rect = color_rect, label = label})
+		slot.setup(INVENTORY_OFFSET + i, inventory, color_rect, label)
+		grid.add_child(slot)
+		slots_ui.append(slot)
 
 func _center_panel() -> void:
 	# Use the child panel's size, not self.size — the root Control stays at (0,0)
@@ -83,11 +83,4 @@ func _center_panel() -> void:
 # Redraws bag slot contents to match the current inventory state
 func _refresh_slots() -> void:
 	for i in 20:
-		var slot = inventory.get_slot(INVENTORY_OFFSET + i)
-		var ui: Dictionary = slots_ui[i]
-		if slot:
-			ui.color_rect.color = slot.item_data.world_color
-			ui.label.text = str(slot.quantity) if slot.quantity > 1 else ""
-		else:
-			ui.color_rect.color = Color.TRANSPARENT
-			ui.label.text = ""
+		slots_ui[i].refresh(inventory.get_slot(INVENTORY_OFFSET + i))

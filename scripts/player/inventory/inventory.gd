@@ -55,3 +55,11 @@ func remove_item(slot_index: int, quantity: int = 1) -> void:
 
 func get_slot(index: int) -> Variant:
 	return slots[index]
+
+# Swaps the contents of two slots. Works for empty slots, so dragging
+# onto an empty slot effectively moves the item.
+func swap_slots(from_index: int, to_index: int) -> void:
+	var temp = slots[from_index]
+	slots[from_index] = slots[to_index]
+	slots[to_index] = temp
+	inventory_changed.emit()

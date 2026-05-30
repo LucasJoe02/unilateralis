@@ -10,8 +10,7 @@ const HOTBAR_SIZE := 10
 @export var inventory: Inventory
 @export var hotbar: Hotbar
 
-# Parallel array of slot UI references: {panel, color_rect, label}
-var slots_ui: Array = []
+var slots_ui: Array[InventorySlot] = []
 
 func _ready() -> void:
 	_build_slots()
@@ -30,12 +29,12 @@ func _build_slots() -> void:
 	add_child(row)
 
 	for i in HOTBAR_SIZE:
-		var panel := PanelContainer.new()
-		panel.custom_minimum_size = Vector2(SLOT_SIZE, SLOT_SIZE)
+		var slot := InventorySlot.new()
+		slot.custom_minimum_size = Vector2(SLOT_SIZE, SLOT_SIZE)
 
 		var vbox := VBoxContainer.new()
 		vbox.alignment = BoxContainer.ALIGNMENT_CENTER
-		panel.add_child(vbox)
+		slot.add_child(vbox)
 
 		var color_rect := ColorRect.new()
 		color_rect.custom_minimum_size = Vector2(30, 30)
@@ -47,8 +46,9 @@ func _build_slots() -> void:
 		label.add_theme_font_size_override("font_size", 9)
 		vbox.add_child(label)
 
-		row.add_child(panel)
-		slots_ui.append({panel = panel, color_rect = color_rect, label = label})
+		slot.setup(i, inventory, color_rect, label)
+		row.add_child(slot)
+		slots_ui.append(slot)
 
 func _position_at_bottom() -> void:
 	# Use the child row's size, not self.size — the root Control stays at (0,0)
@@ -60,14 +60,7 @@ func _position_at_bottom() -> void:
 # Redraws slot contents to match the current inventory state
 func _refresh_slots() -> void:
 	for i in HOTBAR_SIZE:
-		var slot = inventory.get_slot(i)
-		var ui: Dictionary = slots_ui[i]
-		if slot:
-			ui.color_rect.color = slot.item_data.world_color
-			ui.label.text = str(slot.quantity) if slot.quantity > 1 else ""
-		else:
-			ui.color_rect.color = Color.TRANSPARENT
-			ui.label.text = ""
+		slots_ui[i].refresh(inventory.get_slot(i))
 
 # Redraws slot borders to reflect the current selection
 func _refresh_selection() -> void:
@@ -77,4 +70,4 @@ func _refresh_selection() -> void:
 		style.bg_color = Color(0.15, 0.15, 0.15, 0.85)
 		style.set_border_width_all(2)
 		style.border_color = Color(1.0, 0.85, 0.0) if selected else Color(0.4, 0.4, 0.4)
-		slots_ui[i].panel.add_theme_stylebox_override("panel", style)
+		slots_ui[i].add_theme_stylebox_override("panel", style)
