@@ -11,6 +11,7 @@ var slot_index: int = -1
 var inventory: Inventory
 var color_rect: ColorRect
 var label: Label
+var drag_enabled: bool = true
 
 # Binds this slot to an index in the inventory after the node is created
 func setup(index: int, inv: Inventory, cr: ColorRect, lbl: Label) -> void:
@@ -35,8 +36,10 @@ func refresh(slot_data: Variant) -> void:
 		label.text = ""
 
 # Returns drag payload when the player starts dragging from this slot.
-# Returns null to cancel the drag if the slot is empty.
+# Returns null to cancel the drag if the slot is empty or drag is disabled.
 func _get_drag_data(_at_position: Vector2) -> Variant:
+	if not drag_enabled:
+		return null
 	var slot_data = inventory.get_slot(slot_index)
 	if slot_data == null:
 		return null

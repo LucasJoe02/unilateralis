@@ -9,6 +9,7 @@ const HOTBAR_SIZE := 10
 
 @export var inventory: Inventory
 @export var hotbar: Hotbar
+@export var inventory_ui: Control
 
 var slots_ui: Array[InventorySlot] = []
 
@@ -21,7 +22,19 @@ func _ready() -> void:
 		inventory.inventory_changed.connect(_refresh_slots)
 	if hotbar:
 		hotbar.selection_changed.connect(func(_i): _refresh_selection())
+	if inventory_ui:
+		inventory_ui.visibility_changed.connect(_on_inventory_visibility_changed)
+	# Hotbar drag starts disabled since the inventory is hidden on launch
+	_set_drag_enabled(false)
 	_refresh_selection()
+
+# Enables or disables drag on all hotbar slots
+func _set_drag_enabled(enabled: bool) -> void:
+	for slot in slots_ui:
+		slot.drag_enabled = enabled
+
+func _on_inventory_visibility_changed() -> void:
+	_set_drag_enabled(inventory_ui.visible)
 
 func _build_slots() -> void:
 	var row := HBoxContainer.new()
