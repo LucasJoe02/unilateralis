@@ -19,4 +19,8 @@ func _ready() -> void:
 func _on_body_entered(body: Node) -> void:
 	if body.is_in_group("player"):
 		picked_up.emit(item_data, quantity)
+		# Deliver the item to the player's inventory via duck typing —
+		# avoids a hard dependency on the player script
+		if body.has_method("pickup_item"):
+			body.pickup_item(item_data, quantity)
 		queue_free()

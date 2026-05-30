@@ -1,6 +1,8 @@
 [gd_scene format=4 uid="uid://dpm4nqe7y6wr2"]
 
 [ext_resource type="Script" uid="uid://blorw3iiw2ew2" path="res://scripts/player/player.gd" id="1_player"]
+[ext_resource type="Script" uid="uid://bqw7c4k9p2m3n" path="res://scripts/player/inventory/inventory.gd" id="2_inventory"]
+[ext_resource type="Script" uid="uid://bqw7c4k9p2m4n" path="res://scripts/player/inventory/hotbar.gd" id="3_hotbar"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1"]
 size = Vector2(14, 14)
@@ -16,3 +18,9 @@ color = Color(0.2, 0.6, 1, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_1")
+
+[node name="Inventory" type="Node" parent="."]
+script = ExtResource("2_inventory")
+
+[node name="Hotbar" type="Node" parent="."]
+script = ExtResource("3_hotbar")

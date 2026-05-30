@@ -1,0 +1,6 @@
+[gd_scene format=4 uid="uid://bqw7c4k9p2m7n"]
+
+[ext_resource type="Script" uid="uid://bqw7c4k9p2m5n" path="res://scripts/ui/hotbar_ui.gd" id="1"]
+
+[node name="HotbarUI" type="Control"]
+script = ExtResource("1")
