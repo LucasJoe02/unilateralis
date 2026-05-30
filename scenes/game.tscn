@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dlwtjb0xyhxeg" path="res://scripts/camera_2d.gd" id="2_lnu2h"]
 [ext_resource type="Texture2D" uid="uid://6k0am6ovuyyl" path="res://assets/tiles/zombietiles.png" id="2_yqjtg"]
+[ext_resource type="PackedScene" uid="uid://dpm4nqe7y6wr2" path="res://scenes/player/player.tscn" id="3_player"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_lnu2h"]
 texture = ExtResource("2_yqjtg")
@@ -53,7 +54,9 @@ zoom = Vector2(4, 4)
 limit_enabled = false
 limit_smoothed = true
 script = ExtResource("2_lnu2h")
-target = NodePath("")
+target = NodePath("Player")
+
+[node name="Player" parent="." instance=ExtResource("3_player")]
 
 [node name="Tiles" type="Node" parent="." unique_id=786286194]
 
