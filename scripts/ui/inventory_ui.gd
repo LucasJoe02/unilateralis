@@ -13,10 +13,12 @@ const INVENTORY_OFFSET := 10  # bag starts at slot index 10
 var slots_ui: Array = []
 
 func _ready() -> void:
-	visible = false
 	_build_panel()
+	# Wait for layout to calculate the panel size before centering,
+	# then hide — setting visible=false before layout gives a size of (0,0)
 	await get_tree().process_frame
 	_center_panel()
+	visible = false
 	if inventory:
 		inventory.inventory_changed.connect(_refresh_slots)
 
