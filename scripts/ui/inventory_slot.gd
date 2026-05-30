@@ -18,6 +18,12 @@ func setup(index: int, inv: Inventory, cr: ColorRect, lbl: Label) -> void:
 	inventory = inv
 	color_rect = cr
 	label = lbl
+	# Child nodes default to MOUSE_FILTER_STOP which blocks mouse events from
+	# reaching this slot. Set them all to IGNORE so drag events hit the slot.
+	cr.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	if cr.get_parent() is Control:
+		cr.get_parent().mouse_filter = Control.MOUSE_FILTER_IGNORE
 
 # Updates the slot's visual to match current inventory contents
 func refresh(slot_data: Variant) -> void:
