@@ -72,8 +72,11 @@ func _build_panel() -> void:
 		slots_ui.append({panel = slot_panel, color_rect = color_rect, label = label})
 
 func _center_panel() -> void:
+	# Use the child panel's size, not self.size — the root Control stays at (0,0)
+	# and does not auto-resize to fit its children
+	var panel := get_child(0)
 	var vp := get_viewport().get_visible_rect().size
-	position = Vector2((vp.x - size.x) / 2.0, (vp.y - size.y) / 2.0)
+	position = Vector2((vp.x - panel.size.x) / 2.0, (vp.y - panel.size.y) / 2.0)
 
 # Redraws bag slot contents to match the current inventory state
 func _refresh_slots() -> void:

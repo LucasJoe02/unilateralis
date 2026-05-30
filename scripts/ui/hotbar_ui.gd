@@ -51,8 +51,11 @@ func _build_slots() -> void:
 		slots_ui.append({panel = panel, color_rect = color_rect, label = label})
 
 func _position_at_bottom() -> void:
+	# Use the child row's size, not self.size — the root Control stays at (0,0)
+	# and does not auto-resize to fit its children
+	var row := get_child(0)
 	var vp := get_viewport().get_visible_rect().size
-	position = Vector2((vp.x - size.x) / 2.0, vp.y - size.y - 4.0)
+	position = Vector2((vp.x - row.size.x) / 2.0, vp.y - row.size.y - 4.0)
 
 # Redraws slot contents to match the current inventory state
 func _refresh_slots() -> void:
