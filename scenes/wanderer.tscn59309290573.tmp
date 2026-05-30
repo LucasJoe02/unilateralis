@@ -1,0 +1,46 @@
+[gd_scene format=3 uid="uid://b6k7d6fxene2p"]
+
+[ext_resource type="Texture2D" uid="uid://fqhu7m8p5gba" path="res://assets/town_rpg_pack/town_rpg_pack/graphics/hero.png" id="1_ykkg5"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q5ngb"]
+atlas = ExtResource("1_ykkg5")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3b0ti"]
+atlas = ExtResource("1_ykkg5")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nqlmt"]
+atlas = ExtResource("1_ykkg5")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ffvpc"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q5ngb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3b0ti")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nqlmt")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0qg8e"]
+radius = 4.0
+
+[node name="Wanderer" type="AnimatableBody2D" unique_id=246132585]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=269566176]
+sprite_frames = SubResource("SpriteFrames_ffvpc")
+autoplay = "default"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1224879817]
+position = Vector2(0, 4)
+shape = SubResource("CircleShape2D_0qg8e")
+disabled = true
