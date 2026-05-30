@@ -22,6 +22,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("primary_action"):
 		var slot = inventory.get_slot(hotbar.get_selected_index())
 		if slot:
+			print("Used: ", slot.item_data.display_name)
 			slot.item_data.use(self)
 
 # Called by WorldItem when the player walks over a pickup
