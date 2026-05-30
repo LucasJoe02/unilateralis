@@ -54,9 +54,9 @@ zoom = Vector2(4, 4)
 limit_enabled = false
 limit_smoothed = true
 script = ExtResource("2_lnu2h")
-target = NodePath("Player")
+target = NodePath("../Player")
 
-[node name="Player" parent="." instance=ExtResource("3_player")]
+[node name="Player" parent="." unique_id=1230575893 instance=ExtResource("3_player")]
 
 [node name="Tiles" type="Node" parent="." unique_id=786286194]
 
