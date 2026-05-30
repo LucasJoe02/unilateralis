@@ -6,6 +6,12 @@ extends CharacterBody2D
 
 @onready var inventory: Inventory = $Inventory
 @onready var hotbar: Hotbar = $Hotbar
+@onready var item_display: Polygon2D = $Hand/ItemDisplay
+
+func _ready() -> void:
+	# Refresh the hand display whenever the selected slot or inventory changes
+	hotbar.selection_changed.connect(func(_i): _update_hand_display())
+	inventory.inventory_changed.connect(_update_hand_display)
 
 func _physics_process(_delta: float) -> void:
 	# Build a normalised direction vector from the four movement actions
@@ -28,3 +34,13 @@ func _unhandled_input(event: InputEvent) -> void:
 # Called by WorldItem when the player walks over a pickup
 func pickup_item(item_data: ItemData, quantity: int) -> void:
 	inventory.add_item(item_data, quantity)
+
+# Shows a small icon of the equipped item at the hand position,
+# or hides it when the selected hotbar slot is empty
+func _update_hand_display() -> void:
+	var slot = inventory.get_slot(hotbar.get_selected_index())
+	if slot:
+		item_display.color = slot.item_data.world_color
+		item_display.visible = true
+	else:
+		item_display.visible = false

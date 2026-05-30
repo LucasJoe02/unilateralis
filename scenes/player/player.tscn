@@ -19,6 +19,15 @@ color = Color(0.2, 0.6, 1, 1)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_1")
 
+[node name="Hand" type="Marker2D" parent="."]
+position = Vector2(9, 0)
+
+[node name="ItemDisplay" type="Polygon2D" parent="Hand"]
+scale = Vector2(0.6, 0.6)
+polygon = PackedVector2Array(0, -6, 6, 0, 0, 6, -6, 0)
+color = Color(1, 1, 1, 1)
+visible = false
+
 [node name="Inventory" type="Node" parent="."]
 script = ExtResource("2_inventory")
 
