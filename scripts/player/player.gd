@@ -35,6 +35,20 @@ func _unhandled_input(event: InputEvent) -> void:
 func pickup_item(item_data: ItemData, quantity: int) -> void:
 	inventory.add_item(item_data, quantity)
 
+# Removes an item from the given inventory slot and spawns it as a
+# WorldItem in the world, offset slightly so the player doesn't
+# immediately pick it back up
+func drop_item_to_world(slot_index: int) -> void:
+	var slot_data = inventory.get_slot(slot_index)
+	if slot_data == null:
+		return
+	var world_item = preload("res://scenes/world/world_item.tscn").instantiate()
+	world_item.item_data = slot_data.item_data
+	world_item.quantity = slot_data.quantity
+	world_item.global_position = global_position + Vector2(18, 0)
+	get_parent().add_child(world_item)
+	inventory.remove_item(slot_index, slot_data.quantity)
+
 # Shows a small icon of the equipped item at the hand position,
 # or hides it when the selected hotbar slot is empty
 func _update_hand_display() -> void:
