@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="ItemData" load_steps=2 format=3 uid="uid://c3rockitem01"]
+
+[ext_resource type="Script" uid="uid://c3itemdata01" path="res://scripts/resources/item_data.gd" id="1_itemdata"]
+
+[resource]
+script = ExtResource("1_itemdata")
+id = "rock"
+display_name = "Rock"
+description = "A small rock. Nothing special, but you never know."
+max_stack_size = 10
+world_color = Color(0.55, 0.55, 0.55, 1)
